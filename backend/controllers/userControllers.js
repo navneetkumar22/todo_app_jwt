@@ -83,12 +83,28 @@ exports.login = async (req, res) => {
             userExists.token = myToken;
             userExists.password = undefined;
 
-            res.status(200).json(userExists);
-        }
+            // res.status(200).json(userExists);
 
+            //Setting cookies - send token in cookies
+            const options = {
+                expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+                httpOnly: true
+            };
+
+            res.status(200).cookie('token', myToken, options).json({
+                success: true,
+                myToken,
+                userExists
+            })
+        }
 
     } catch (error) {
         console.log(error);
     }
+}
+
+//dashboard
+exports.dashboard = async (req, res) => {
+    res.send("Welcome to secret dashboard");
 }
 
