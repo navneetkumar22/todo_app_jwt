@@ -1,20 +1,26 @@
 const Todo = require('../models/todo');
 
 /*****************
- * @HOME  Home Pages - todos 
+ * @HOME  Home Page - todos 
  *****************/
 exports.home = (req, res) => {
     res.send("<h1>Hello world! This is full stack todo app</h1>")
 }
 
+/******************************************
+ * @TODO_CONTROLLERS
+ * @Create_A_Todo
+ * @Get_All_Todos
+ * @Edit_A_Todo
+ * @Delete_A_Todo
+ ******************************************/
+
 /*****************
- * @Create_Todo Create a ToDo 
+ * @Create_A_Todo
  *****************/
 exports.createTodo = async (req, res) => {
     try {
-        const { title} = req.body;
-        const user = req.user;
-
+        const { title, user } = req.body;
 
         //validate
         if (!title) {
@@ -28,6 +34,160 @@ exports.createTodo = async (req, res) => {
             message: "Todo is successfully created",
             todo
         })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*****************
+ * @Get_All_Todos
+ *****************/
+exports.getAllTodos = async (req, res) => {
+    try {
+        const todos = await Todo.find();
+        res.status(200).json({
+            success: true,
+            todos
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*****************
+ * @Edit_A_Todo
+ *****************/
+exports.editTodo = async (req, res) => {
+    try {
+        const todo = await Todo.findByIdAndUpdate(req.params.id, req.body);
+        res.status(200).json({
+            success: true,
+            message: "Todo updated successfully",
+            todo
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*****************
+ * @Delete_A_Todo
+ *****************/
+exports.deleteTodo = async (req, res) => {
+    try {
+        const todo = await Todo.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            success: true,
+            message: "Todo is deleted successfully"
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+/******************************************
+ * @TASK_CONTROLLERS
+ * @Get_All_Tasks
+ * @Add_A_Task
+ * @Edit_A_Task
+ * @Delete_A_Task
+ ******************************************/
+
+
+/*****************
+ * @Get_All_Tasks
+ *****************/
+exports.getAllTasks = async (req, res) => {
+    try {
+        const getTodo = await Todo.findById(req.params.id);
+
+        //check if todo exists
+        if (!getTodo) {
+            throw new Error("Todo does not exists")
+        }
+
+        //get all tasks
+        const allTasks = getTodo.tasks;
+        res.status(200).json({
+            success: true,
+            message: "Tasks fetched successfully",
+            allTasks
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*****************
+ * @Add_A_Task
+ *****************/
+exports.addTask = async (req, res) => {
+    try {
+        const todoExist = await Todo.findById(req.params.id);
+
+        // validation
+        if (!todoExist) {
+            throw new Error("Todo does not exist");
+        }
+
+        //add task
+        todoExist.tasks.push({ taskTitle: req.body.task });
+        console.log(todoExist);
+        const todo = await Todo.findByIdAndUpdate(req.params.id, todoExist);
+
+        res.status(200).json({
+            success: true,
+            message: "Task added successfully",
+            todo
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*****************
+ * @Edit_A_Task
+ *****************/
+exports.editTask = async (req, res) => {
+    try {
+        const { todoId, taskId } = req.params;
+
+        //todo validation - check if todo exist
+        const todoExist = await Todo.findById(todoId);
+        if (!todoExist) {
+            throw new Error("Todo does not exist")
+        }
+
+        //task validation - check if task exist
+        const taskExist = todoExist.tasks.some(element => element._id == taskId);
+        if (!taskExist) {
+            throw new Error("Task does not exists")
+        }
+
+        //find index of task and edit the title
+        const taskIndex = todoExist.tasks.findIndex(obj => obj._id == taskId);
+        todoExist.tasks[taskIndex].taskTitle = req.body.task;
+
+        //update the todo with the new title
+        const updatedTodo = await Todo.findByIdAndUpdate(todoId, todoExist);
+
+        res.status(200).json({
+            success: true,
+            message: "Task edited successfully",
+            updatedTodo
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*****************
+ * @Delete_A_Task
+ *****************/
+exports.deleteTask = async (req, res) => {
+    try {
+        const { todoId, taskId } = req.params;
     } catch (error) {
         console.log(error);
     }
