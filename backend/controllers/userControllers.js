@@ -2,7 +2,9 @@ const User = require('../models/user');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 
-// register a user
+/*****************
+ * @REGISTER  Register a user 
+ *****************/
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -48,7 +50,10 @@ exports.register = async (req, res) => {
     }
 }
 
-//login a user
+
+/*****************
+ * @LOGIN  Login a user 
+ *****************/
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -93,8 +98,7 @@ exports.login = async (req, res) => {
 
             res.status(200).cookie('token', myToken, options).json({
                 success: true,
-                myToken,
-                userExists
+                user: userExists
             })
         }
 
@@ -103,8 +107,32 @@ exports.login = async (req, res) => {
     }
 }
 
-//dashboard
+/*****************
+ * @DASHBOARD  Demo - User Dashboard 
+ *****************/
 exports.dashboard = async (req, res) => {
     res.send("Welcome to secret dashboard");
 }
 
+
+/*****************
+ * @LOGOUT  Logout a user 
+ *****************/
+exports.logout = async (req, res) => {
+    try {
+        // clear the cookies
+        res.cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly: true
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Logged Out!"
+        })
+
+
+    } catch (error) {
+        console.log(error);
+    }
+}
