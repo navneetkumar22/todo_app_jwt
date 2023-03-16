@@ -10,7 +10,12 @@ const TodoSchema = new Schema({
     },
     tasks: [{
         taskTitle: String
-    }]
+    }],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    }
 }, {
     timestamps: true
 })
