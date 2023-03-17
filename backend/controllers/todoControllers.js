@@ -59,7 +59,11 @@ exports.getAllTodos = async (req, res) => {
  *****************/
 exports.editTodo = async (req, res) => {
     try {
-        const todo = await Todo.findByIdAndUpdate(req.params.id, req.body);
+        const todo = await Todo.findById(req.params.id);
+        todo.title = req.body.title;
+
+        const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, todo);
+
         res.status(200).json({
             success: true,
             message: "Todo updated successfully",
@@ -108,11 +112,11 @@ exports.getAllTasks = async (req, res) => {
         }
 
         //get all tasks
-        const allTasks = getTodo.tasks;
+        const tasks = getTodo.tasks;
         res.status(200).json({
             success: true,
             message: "Tasks fetched successfully",
-            allTasks
+            tasks
         })
     } catch (error) {
         console.log(error);
@@ -175,7 +179,7 @@ exports.editTask = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Task edited successfully",
-            updatedTodo
+            todo: todoExist
         })
     } catch (error) {
         console.log(error);
@@ -196,7 +200,7 @@ exports.deleteTask = async (req, res) => {
         }
 
         //task validation - check if task exist
-        const taskExist = todoExist.tasks.some(e => { e._id == taskId });
+        const taskExist = todoExist.tasks.some(e =>  e._id == taskId );
         if (!taskExist) {
             throw new Error("Task does not exist")
         }
