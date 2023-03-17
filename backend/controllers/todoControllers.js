@@ -188,6 +188,33 @@ exports.editTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
     try {
         const { todoId, taskId } = req.params;
+        const todoExist = await Todo.findById(todoId);
+
+        //check if todo exist
+        if (!todoExist) {
+            throw new Error("Todo does not exist")
+        }
+
+        //task validation - check if task exist
+        const taskExist = todoExist.tasks.some(e => { e._id == taskId });
+        if (!taskExist) {
+            throw new Error("Task does not exist")
+        }
+
+        //find index of task and delete it - and return updated todo
+        const taskIndex = todoExist.tasks.findIndex(e => { e._id == taskId });
+        todoExist.tasks.splice(taskIndex, 1);
+
+        // update the todo
+        const updatedTodo = await Todo.findByIdAndUpdate(todoId, todoExist);
+
+        res.status(200).json({
+            success: true,
+            message: "Task deleted successfully",
+            todoExist
+        })
+
+
     } catch (error) {
         console.log(error);
     }
