@@ -1,6 +1,6 @@
 const express = require('express');
 const { home, createTodo, getAllTodos, editTodo, deleteTodo,
-    getAllTasks, addTask, editTask, deleteTask, sortByCreateDate, sortByModifiedDate } = require('../controllers/todoControllers');
+    getAllTasks, addTask, editTask, deleteTask, sortByCreateDate, sortByModifiedDate, searchTodos } = require('../controllers/todoControllers');
 const { register, login, dashboard, logout } = require('../controllers/userControllers');
 const auth = require('../middlewares/auth');
 
@@ -16,6 +16,9 @@ router.delete("/deleteTodo/:id", deleteTodo);
 //Todo - Sorting routes
 router.get("/sortByCreateDate", sortByCreateDate);
 router.get("/sortByModifiedDate", sortByModifiedDate);
+
+//Search route
+router.get("/search/:key", searchTodos)
 
 //Task Routes
 router.get("/getAllTasks/:id", getAllTasks);

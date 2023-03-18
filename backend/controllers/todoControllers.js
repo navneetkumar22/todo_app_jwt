@@ -125,6 +125,29 @@ exports.sortByModifiedDate = async (req, res) => {
     }
 }
 
+/*****************
+ * @Search_All_Todos
+ *****************/
+exports.searchTodos = async (req, res) => {
+    try {
+        const key = req.params.key;
+        const searchData = await Todo.find({
+            "$or": [
+                { "title": { $regex: key } },
+                { "task": { $regex: key } }
+            ]
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Search results fetched successfully",
+            todo: searchData
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 /******************************************
  * @TASK_CONTROLLERS
  * @Get_All_Tasks
