@@ -9,9 +9,9 @@ const router = express.Router();
 //Todo Routes
 router.get("/", home);
 router.post("/api/todo/create", auth, createTodo);
-router.get("/getAllTodos", getAllTodos);
-router.put("/editTodo/:id", editTodo);
-router.delete("/deleteTodo/:id", deleteTodo);
+router.get("/getAllTodos", auth, getAllTodos);
+router.put("/editTodo/:id", auth, editTodo);
+router.delete("/deleteTodo/:id", auth, deleteTodo);
 
 //Todo - Sorting routes
 router.get("/sortByCreateDate", sortByCreateDate);
