@@ -13,6 +13,8 @@ exports.home = (req, res) => {
  * @Get_All_Todos
  * @Edit_A_Todo
  * @Delete_A_Todo
+ * 
+ * @Sort_Functionality
  ******************************************/
 
 /*****************
@@ -89,6 +91,39 @@ exports.deleteTodo = async (req, res) => {
     }
 }
 
+/*****************
+ * @Sort_Todos
+ * 
+ * @Sort_By_Create_Date
+ * @Sort_By_Modified_Date
+ *****************/
+exports.sortByCreateDate = async (req, res) => {
+    try {
+        const sortedTodos = await Todo.find().sort({ createdAt: -1 })
+
+        res.status(200).json({
+            success: true,
+            message: "Todos sorted by created date",
+            sortedTodos
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.sortByModifiedDate = async (req, res) => {
+    try {
+        const sortedtodos = await Todo.find().sort({ updatedAt: -1 })
+
+        res.status(200).json({
+            success: true,
+            message: "Todos sorted by modified date",
+            sortedtodos
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 /******************************************
  * @TASK_CONTROLLERS
@@ -200,7 +235,7 @@ exports.deleteTask = async (req, res) => {
         }
 
         //task validation - check if task exist
-        const taskExist = todoExist.tasks.some(e =>  e._id == taskId );
+        const taskExist = todoExist.tasks.some(e => e._id == taskId);
         if (!taskExist) {
             throw new Error("Task does not exist")
         }

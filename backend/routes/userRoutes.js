@@ -1,5 +1,6 @@
 const express = require('express');
-const { home, createTodo, getAllTodos, editTodo, deleteTodo, getAllTasks, addTask, editTask, deleteTask } = require('../controllers/todoControllers');
+const { home, createTodo, getAllTodos, editTodo, deleteTodo,
+    getAllTasks, addTask, editTask, deleteTask, sortByCreateDate, sortByModifiedDate } = require('../controllers/todoControllers');
 const { register, login, dashboard, logout } = require('../controllers/userControllers');
 const auth = require('../middlewares/auth');
 
@@ -11,6 +12,10 @@ router.post("/api/todo/create", auth, createTodo);
 router.get("/getAllTodos", getAllTodos);
 router.put("/editTodo/:id", editTodo);
 router.delete("/deleteTodo/:id", deleteTodo);
+
+//Todo - Sorting routes
+router.get("/sortByCreateDate", sortByCreateDate);
+router.get("/sortByModifiedDate", sortByModifiedDate);
 
 //Task Routes
 router.get("/getAllTasks/:id", getAllTasks);
