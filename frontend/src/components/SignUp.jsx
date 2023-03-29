@@ -26,6 +26,8 @@ function Signup() {
         setUserName('');
         setUserEmail('');
         setUserPassword('');
+
+        navigate("/dashboard");
     }
 
 
