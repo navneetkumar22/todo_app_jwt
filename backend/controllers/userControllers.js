@@ -111,7 +111,16 @@ exports.login = async (req, res) => {
  * @DASHBOARD  Demo - User Dashboard 
  *****************/
 exports.dashboard = async (req, res) => {
-    res.send("Welcome to secret dashboard");
+    try {
+        // const token = req.cookies.token;
+        // const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
+        // const verifiedUser = await User.findById(verifiedToken.userId, "name email");
+
+        // res.status(200).json(verifiedUser);
+        res.send('Welcome to secret dashboard');
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
