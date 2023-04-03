@@ -1,8 +1,10 @@
+require("dotenv").config();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const auth = async (req, res, next) => {
-    const token = req.cookies.token;
+    const { authorization } = req.headers;
+    const token = authorization.split(' ')[1];
 
     //check if token is present
     if (!token) {
@@ -11,11 +13,11 @@ const auth = async (req, res, next) => {
 
     try {
         const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
-        const verifiedUser = await User.findById(verifiedToken.userId, "name email")
+        const verifiedUser = await User.findById(verifiedToken._id, "name email")
 
-        console.log("User: ", verifiedUser);
+        res.json({ verifiedUser });
+
         next();
-
 
     } catch (error) {
         res.status(401).send("Invalid token - not authorized to access this route")
