@@ -1,3 +1,4 @@
+require("dotenv").config();
 const User = require('../models/user');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
@@ -32,7 +33,7 @@ exports.register = async (req, res) => {
 
         //creating token
         const myToken = jwt.sign(
-            { userId: user._id, email },
+            { userId: user._id },
             process.env.SECRET_KEY,
             {
                 expiresIn: "4h"
@@ -43,7 +44,12 @@ exports.register = async (req, res) => {
         user.token = myToken;
         user.password = undefined;
 
-        res.status(200).json(user);
+        res.status(200).json({
+            success: true,
+            message: "User created successfully",
+            token: myToken,
+            user
+        });
 
     } catch (error) {
         console.log(error);
@@ -77,29 +83,32 @@ exports.login = async (req, res) => {
 
         //if all good - send token
         if (userExists && trueUser) {
+
             const myToken = jwt.sign(
-                { userId: userExists._id, email },
-                process.env.SECRET_KEY,
-                {
-                    expiresIn: '2h'
-                }
+                { _id: userExists._id },
+                process.env.SECRET_KEY
             )
 
             userExists.token = myToken;
             userExists.password = undefined;
 
-            // res.status(200).json(userExists);
+            res.status(200).json({
+                success: true,
+                user: userExists,
+                message: "User logged in successfully",
+                token: myToken
+            });
 
             //Setting cookies - send token in cookies
-            const options = {
-                expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
-                httpOnly: true
-            };
+            // const options = {
+            //     expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+            //     httpOnly: true
+            // };
 
-            res.status(200).cookie('token', myToken, options).json({
-                success: true,
-                user: userExists
-            })
+            // res.status(200).cookie('token', myToken, options).json({
+            //     success: true,
+            //     user: userExists
+            // })
         }
 
     } catch (error) {
@@ -112,11 +121,8 @@ exports.login = async (req, res) => {
  *****************/
 exports.dashboard = async (req, res) => {
     try {
-        // const token = req.cookies.token;
-        // const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
-        // const verifiedUser = await User.findById(verifiedToken.userId, "name email");
+        //
 
-        // res.status(200).json(verifiedUser);
         res.send('Welcome to secret dashboard');
     } catch (error) {
         console.log(error);
