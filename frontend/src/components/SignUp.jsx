@@ -11,8 +11,17 @@ function Signup() {
     const submitData = async () => {
         const data = { name: userName, email: userEmail, password: userPassword }
         try {
-            await axios.post("http://localhost:4000/register", data);
-            
+            await axios.post("http://localhost:4000/register", data)
+                .then(resp => { return resp.data })
+                .then((result) => {
+                    console.log("result ", result);
+                    if (result.success) {
+                        localStorage.setItem("token", result.token)
+                        window.alert(result.message);
+                        navigate('/dashboard');
+                    }
+                })
+
         } catch (error) {
             console.log(error)
         }
@@ -26,8 +35,6 @@ function Signup() {
         setUserName('');
         setUserEmail('');
         setUserPassword('');
-
-        navigate("/dashboard");
     }
 
 

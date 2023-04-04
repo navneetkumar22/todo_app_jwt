@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-    const navigate = useNavigate();
+    const navigate = useNavigate('');
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
@@ -11,8 +11,15 @@ function Login() {
         const data = { email: userEmail, password: userPassword }
 
         await axios.post("http://localhost:4000/login", data)
-            // .then(resp => {console.log(resp.data.user);} )
-            // .then(response => { console.log(response.user.email); })
+            .then(resp => { return resp.data })
+            .then((result) => {
+                console.log("result ", result);
+                if (result.success) {
+                    localStorage.setItem("token", result.token)
+                    window.alert(result.message);
+                    navigate('/dashboard');
+                }
+            })
     }
     const loginUser = async (e) => {
         e.preventDefault()
@@ -20,7 +27,6 @@ function Login() {
 
         setUserEmail('');
         setUserPassword('');
-        navigate('/dashboard');
     }
 
 
