@@ -13,11 +13,9 @@ const auth = async (req, res, next) => {
 
     try {
         const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
-        const verifiedUser = await User.findById(verifiedToken._id, "name email")
+        req.user = await User.findById(verifiedToken._id, "name email");
 
-        res.json({ verifiedUser });
-
-        next();
+        // res.json({ user: verifiedUser });
 
     } catch (error) {
         res.status(401).send("Invalid token - not authorized to access this route")

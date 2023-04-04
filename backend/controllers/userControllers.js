@@ -121,9 +121,15 @@ exports.login = async (req, res) => {
  *****************/
 exports.dashboard = async (req, res) => {
     try {
-        //
+        const { authorization } = req.headers;
+        const token = authorization.split(' ')[1];
 
-        res.send('Welcome to secret dashboard');
+        const verifiedToken = jwt.verify(token, process.env.SECRET_KEY);
+        const verifiedUser = await User.findById(verifiedToken._id, "name email")
+
+        res.json({ user: verifiedUser });
+
+        // res.send('Welcome to secret dashboard');
     } catch (error) {
         console.log(error);
     }
