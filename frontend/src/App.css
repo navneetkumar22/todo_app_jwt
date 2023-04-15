@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
@@ -20,6 +21,7 @@ button {
   font-weight: 600;
   border: none;
   color: white;
+  font-size: small;
 }
 
 .login-div {
@@ -60,6 +62,7 @@ button {
   border: none;
   color: white;
   cursor: pointer;
+  width: 100%;
 }
 
 .register:hover {
@@ -71,6 +74,8 @@ button {
   border: none;
   padding: 10px 0px;
   border-radius: 4px;
+  text-align: center;
+  font-size: medium;
 }
 
 .login-form button {
@@ -114,7 +119,7 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 10px;
+  padding: 0px 30px;
   background-color: whitesmoke;
   box-shadow: 1px 2px 5px 1px gray;
 
@@ -125,71 +130,103 @@ h4 {
   gap: 8px;
 }
 
-input {
-  /* padding: 56px 11px; */
+.search-div {
   border-radius: 4px;
+  border: 2px solid gray;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+}
+
+.search-img {
+  height: 20px;
+}
+
+.input-search {
+  border: none;
   text-align: center;
-  border: 1px solid gray;
+  background-color: transparent;
+  font-size: medium;
+  width: 120px;
+}
+
+input:focus {
+  outline: none;
 }
 
 /* hero section */
 .header {
-  /* border: 2px solid red; */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 0px;
+  width: 40vw;
+  margin: 20px 0px 20px 40px;
+  padding: 0px 10px;
 }
 
 .sorting {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
-/* todos section */
+.sort-btn {
+  background-color: steelblue;
+  padding: 7px 10px;
+  box-shadow: 1px 1px 8px -1px gray;
+}
 
+
+
+/* todos section */
 .todos {
   margin: 0px 0px;
 }
 
 .todo-div {
-  /* border: 2px solid red; */
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 0px 5px;
-  margin: 10px 0px;
+  justify-content: space-between;
+  margin: 20px auto;
+  cursor: pointer;
+  width: 40vw;
+  background-color: whitesmoke;
+  padding: 3px 20px;
+  border-radius: 4px;
 }
 
-.todo-name{
-  cursor: pointer;
-  width: 50vw;
-  text-align: center;
-  background-color: whitesmoke;
-  padding: 10px 20px;
-  border-radius: 4px;
-  box-shadow: 1px 2px 5px 1px gray;
-}
-.todo-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.todo-header h2{
-  text-align: center;
-  border: 1px solid black;
-  border-radius: 50%;
-  padding: 2px 7px;
-  transform:rotate(90deg);
+.todo-div:hover {
+  box-shadow: 1px 2px 8px 1px black;
+  transform: scale(1.01);
+  overflow: scroll;
 }
 
 .action {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  gap: 20px;
-  width: 30vw;
+  gap: 5px;
+  /* width: 30vw; */
+}
+
+.action img {
+  height: 28px;
+  padding: 4px;
+  margin: 0px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action img:hover {
+  box-shadow: 1px 2px 5px 1px gray;
+}
+
+.action img:nth-child(1) {
+  border: 2px solid #228BE6;
+}
+
+.action img:nth-child(2) {
+  border: 2px solid #DC493B;
 }
 
 /* button styling */
@@ -209,16 +246,8 @@ input {
   background-color: brown;
 }
 
-/* styling tasks */
-.tasks-div {
+.hero-div {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 10px;
-}
-.tasks-div p{
-  background-color: #5583de;
-  margin: 3px;
-  padding: 6px 0px;
-  border-radius: 4px;
-  color: white;
+  grid-template-columns: repeat(2, auto);
+  margin-bottom: 100px;
 }
