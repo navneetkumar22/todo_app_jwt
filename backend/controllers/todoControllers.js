@@ -264,7 +264,7 @@ exports.deleteTask = async (req, res) => {
         }
 
         //find index of task and delete it - and return updated todo
-        const taskIndex = todoExist.tasks.findIndex(e => { e._id == taskId });
+        const taskIndex = todoExist.tasks.indexOf(taskExist);
         todoExist.tasks.splice(taskIndex, 1);
 
         // update the todo
@@ -273,7 +273,7 @@ exports.deleteTask = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Task deleted successfully",
-            todoExist
+            todo: updatedTodo
         })
 
 
