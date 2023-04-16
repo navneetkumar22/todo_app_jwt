@@ -17,9 +17,9 @@ function Dashboard() {
     const navigate = useNavigate('');
 
     useEffect(() => {
-        fetchUser()
+        fetchUser();
         fetchTodos();
-    }, [userData]);
+    },);
 
     //fetch the current user
     const fetchUser = async () => {

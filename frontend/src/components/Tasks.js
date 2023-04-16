@@ -10,7 +10,7 @@ const Tasks = ({ grabTodo, setGrabTodo }) => {
 
     useEffect(() => {
         fetchAllTasks();
-    }, [grabTodo,tasks]);
+    },);
 
     const clickedTodo = grabTodo;
 
